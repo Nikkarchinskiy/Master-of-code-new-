@@ -1,0 +1,23 @@
+ul {
+    display: flex;
+    list-style: none;
+}
+
+li {
+    width: 50px;
+    height: 50px;
+    margin: 0 2px;
+    border: 1px solid #d4d4d4;
+}
+
+li.uninfected {
+    background-color: #CEFFCE;
+}
+
+li.infected {
+    background-color: #FFCECE;
+}
+
+li.ocean {
+    background-color: #CECEFF;
+}
