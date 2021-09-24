@@ -1,8 +1,16 @@
-const pandemicStartMap = "01000000X000X011X0X";
+const pandemicStartMap = "XX0X10010X000X010X0";
 
 const arrPandemic = pandemicStartMap.split('');
 const li = className => `<li class=${className}></li>`;
-const ul = document.querySelector('#pandemic');
+const ulStart = document.querySelector('#pandemic-start');
+const ulEnd = document.querySelector('#pandemic-end');
+const total = document.querySelector('#total');
+const infected = document.querySelector('#infected');
+const percentage = document.querySelector('#percentage');
+
+let infectedPeople = 0;
+let percentageInfected = 0;
+let totalPeople = 0;
 
 const zone = {
     "0": "uninfected",
@@ -20,7 +28,9 @@ const indexZone = arrPandemic.reduce((accamulate, charter, index) => {
     uninfected: [],
     infected: [],
     ocean: [],
-})
+});
+
+console.log(indexZone);
 
 const oceanSide = [];
 
@@ -44,7 +54,7 @@ for (let i = 0; i < indexZone.ocean.length; i++) {
 const infectedOceanSide = oceanSide.filter(a => a.infected);
 
 
-const render = (pandemicMap) => {
+const render = (pandemicMap, ul) => {
     let html = "";
     for (let i = 0; i < pandemicMap.length; i++) {
         const charter = pandemicMap[i];
@@ -71,10 +81,34 @@ const changePandemicMap = () => {
     }
     return newMap.join('');
 
+};
+
+
+let newMap = changePandemicMap().split('');
+console.log(newMap);
+
+const addText = (map) => {
+    newMap.forEach((item) => {
+        if (item == '1') {
+            infectedPeople = infectedPeople + 1;
+            totalPeople = totalPeople + 1;
+        } else if (item == '0') {
+            totalPeople = totalPeople + 1;
+        }
+    });
+    total.insertAdjacentHTML('beforeend', totalPeople);
+    infected.insertAdjacentHTML('beforeend', infectedPeople);
 }
 
+addText(newMap);
+
+const findPercentage = (total, infected) => {
+    percentageInfected = infected / total * 100;
+    percentage.insertAdjacentHTML('beforeend', percentageInfected)
+}
+
+findPercentage(totalPeople, infectedPeople)
 
 
-
-render(changePandemicMap()); // вызвать функцию с изменением карты
-// render(pandemicStartMap) вызвать функцию без изменения карты
+render(changePandemicMap(), ulEnd); // вызвать функцию с изменением карты
+render(pandemicStartMap, ulStart); //вызвать функцию без изменения карты
